@@ -12,6 +12,7 @@ class VendorController extends Controller
 {
     public function VendorDashboard()
     {
+        
         return view('vendor.index');
     }
     public function Vendor_Login()

@@ -14,6 +14,7 @@ class UserController extends Controller
         
         $id = Auth::user()->id;
         $userData = User::find($id);
+       
         return view('index',compact('userData'));
     }
     public function UserProfileStore(Request $request)
@@ -51,6 +52,35 @@ class UserController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect(route('/login'));
+        $notification = array(
+            'message' => 'User Logout Successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect(route('login'))->with($notification);
+    }
+    public function UserUpdatePassword(Request $request)
+    {
+        $request->validate([
+            'old_password' => 'required',
+            'new_password' => 'required',
+            'new_password_confirmation' => 'required',
+        ]);
+
+        if(!Hash::check($request->old_password,Auth::user()->password))
+        {
+            return back()->with("error","Old Password Doesn`t Match");
+        }
+
+        if($request->new_password_confirmation!=$request->new_password)
+        {
+            return back()->with("error","New Password Is Not Matching");
+        }
+
+        User::whereId(Auth::user()->id)->update([
+            'password' => Hash::make($request->new_password),
+        ]);
+        return back()->with("status","Password Changed Successfully");
+
     }
 }
