@@ -21,6 +21,7 @@
 	<link href="{{asset('adminBackend/assets/css/icons.css')}}" rel="stylesheet">
 	<!-- Theme Style CSS -->
 	<link rel="stylesheet" href="{{asset('adminBackend/assets/css/dark-theme.css')}}" />
+	<link href="{{asset('adminBackend/assets/plugins/datatable/css/dataTables.bootstrap5.min.css')}}" rel="stylesheet" />
 	<link rel="stylesheet" href="{{asset('adminBackend/assets/css/semi-dark.css')}}" />
 	<link rel="stylesheet" href="{{asset('adminBackend/assets/css/header-colors.css')}}" />
 	<!-- Toaster CSS -->
@@ -51,7 +52,6 @@
 	</div>
 	<!--end wrapper-->
 	<!--start switcher-->
-	
 	<!--end switcher-->
 	<!-- Bootstrap JS -->
 	<script src="{{asset('adminBackend/assets/js/bootstrap.bundle.min.js')}}"></script>
@@ -65,6 +65,7 @@
     <script src="{{asset('adminBackend/assets/plugins/vectormap/jquery-jvectormap-world-mill-en.js')}}"></script>
 	<script src="{{asset('adminBackend/assets/plugins/jquery.easy-pie-chart/jquery.easypiechart.min.js')}}"></script>
 	<script src="{{asset('adminBackend/assets/plugins/sparkline-charts/jquery.sparkline.min.js')}}"></script>
+
 	<script src="{{asset('adminBackend/assets/plugins/jquery-knob/excanvas.js')}}"></script>
 	<script src="{{asset('adminBackend/assets/plugins/jquery-knob/jquery.knob.js')}}"></script>
 	  <script>
@@ -73,6 +74,14 @@
 		  });
 	  </script>
 	  <script src="{{asset('adminBackend/assets/js/index.js')}}"></script>
+	  <script src="{{asset('adminBackend/assets/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
+		<script>
+			$(document).ready(function() {
+				$('#example').DataTable();
+			} );
+		</script>
+
+
 	<!--app JS-->
 	<script src="{{asset('adminBackend/assets/js/app.js')}}"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
@@ -95,6 +104,9 @@
         }
     @endif 
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+ <script src="{{asset('adminBackend/assets/js/code.js')}}"></script>
 </body>
 
 </html>

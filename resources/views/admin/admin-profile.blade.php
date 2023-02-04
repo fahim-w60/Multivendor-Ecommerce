@@ -121,7 +121,7 @@
 												<h6 class="mb-0"></h6>
 											</div>
 											<div class="col-sm-9 text-secondary">
-                                         <img src="{{(!empty($userData->photo)) ? url('upload/user_images/'.$userData->photo):url('upload/no_image.jpg')}}" id="showImage" alt="User" class="" width="110">   
+                                         <img src="{{(!empty($adminData->photo)) ? url('upload/admin_images/'.$adminData->photo):url('upload/no_image.jpg')}}" id="showImage" alt="User" class="" width="110">   
 											</div>
 										</div>
 

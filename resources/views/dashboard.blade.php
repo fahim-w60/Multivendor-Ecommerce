@@ -21,19 +21,13 @@
 </head>
 
 <body>
-
     <!-- Quick view -->
     @include('frontend.body.header')
     <!--End header-->
-
     <main class="main pages">
       @yield('user')
     </main>
-
-
-
  @include('frontend.body.footer')
-
     <!-- Preloader Start -->
     <div id="preloader-active">
         <div class="preloader d-flex align-items-center justify-content-center">

@@ -51,7 +51,6 @@
 	</div>
 	<!--end wrapper-->
 	<!--start switcher-->
-	
 	<!--end switcher-->
 	<!-- Bootstrap JS -->
 	<script src="{{asset('adminBackend/assets/js/bootstrap.bundle.min.js')}}"></script>
