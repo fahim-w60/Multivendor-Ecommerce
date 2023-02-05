@@ -17,6 +17,7 @@
 	<!-- Bootstrap CSS -->
 	<link href="{{asset('adminBackend/assets/css/bootstrap.min.css')}}" rel="stylesheet">
 	<link href="{{asset('adminBackend/assets/css/app.css')}}" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" >
 	<link href="{{asset('adminBackend/assets/css/icons.css')}}" rel="stylesheet">
 	<title>Rukada - Responsive Bootstrap 5 Admin Template</title>
 </head>
@@ -85,6 +86,26 @@
 	<script src="{{asset('adminBackend/assets/js/jquery.min.js')}}"></script>
 	<script src="{{asset('adminBackend/assets/plugins/simplebar/js/simplebar.min.js')}}"></script>
 	<script src="{{asset('adminBackend/assets/plugins/metismenu/js/metisMenu.min.js')}}"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+    @if(Session::has('message'))
+        var type = "{{ Session::get('alert-type','info') }}"
+        switch(type){
+            case 'info':
+            toastr.info(" {{ Session::get('message') }} ");
+            break;
+            case 'success':
+            toastr.success(" {{ Session::get('message') }} ");
+            break;
+            case 'warning':
+            toastr.warning(" {{ Session::get('message') }} ");
+            break;
+            case 'error':
+            toastr.error(" {{ Session::get('message') }} ");
+            break; 
+        }
+    @endif 
+</script>
 	<script src="{{asset('adminBackend/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js')}}"></script>
 	<!--Password show & hide js -->
 	<script>

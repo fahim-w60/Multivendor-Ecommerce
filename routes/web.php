@@ -7,6 +7,7 @@ use App\Http\Controllers\VendorController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\SubcategoryController;
 
 Route::get('/', function () {
     return view('frontend.index');
@@ -70,6 +71,10 @@ Route::middleware(['auth','role:vendor'])->group(function (){
 Route::get('/vendor/login',[VendorController::class,'Vendor_Login'])->name('vendor.login');
 Route::get('/admin/login',[AdminController::class,'AdminLogin'])->name('admin.login');
 
+Route::get('/vendor/becomevendor',[VendorController::class,'BecomeVendor'])->name('become.vendor');
+
+Route::post('/vendor/register',[VendorController::class,'VendorRegister'])->name('vendor.register');
+
 
 Route::middleware(['auth','role:admin'])->group(function (){
     //start brand area
@@ -95,6 +100,32 @@ Route::middleware(['auth','role:admin'])->group(function (){
         Route::get('/delete/category/{id}','DeleteCategory')->name('delete.category');
     });
     //end category area
+
+    //start subcategory area
+    Route::controller(SubcategoryController::class)->group(function(){
+        Route::get('/all/subcategory','AllSubCategory')->name('all.subcategory');
+        Route::get('/add/subcategory','AddSubCategory')->name('add.subcategory');
+        Route::post('/store/subcategory','StoreSubCategory')->name('store.subcategory');
+        Route::get('/edit/subcategory/{id}','EditSubCategory')->name('edit.subcategory');
+        
+        Route::post('/update/subcategory/','UpdateSubCategory')->name('subcategory.update');
+        Route::get('/delete/subcategory/{id}','DeleteSubCategory')->name('delete.subcategory');
+    });
+    //end csubategory area
+
+    //start vendor manage area
+    Route::controller(AdminController::class)->group(function(){
+        Route::get('/inactive/vendor','InactiveVendor')->name('inactive.vendor');
+        Route::get('/active/vendor','ActiveVendor')->name('active.vendor');
+        Route::get('/inactive/vendor/details/{id}','InactiveVendorDetails')->name('inactive.vendor.details');
+        Route::post('/activate/vendor','ActivateVendor')->name('activate.vendor');
+        
+        // Route::post('/update/subcategory/','UpdateSubCategory')->name('subcategory.update');
+        // Route::get('/delete/subcategory/{id}','DeleteSubCategory')->name('delete.subcategory');
+    });
+    //end vendor manage area
+
+
 });
 
 
