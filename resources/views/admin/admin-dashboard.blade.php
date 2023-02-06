@@ -19,6 +19,7 @@
 	<link href="{{asset('adminBackend/assets/css/bootstrap.min.css')}}" rel="stylesheet">
 	<link href="{{asset('adminBackend/assets/css/app.css')}}" rel="stylesheet">
 	<link href="{{asset('adminBackend/assets/css/icons.css')}}" rel="stylesheet">
+	<link href="{{asset('adminBackend/assets/plugins/input-tags/css/tagsinput.css')}}" rel="stylesheet" />
 	<!-- Theme Style CSS -->
 	<link rel="stylesheet" href="{{asset('adminBackend/assets/css/dark-theme.css')}}" />
 	<link href="{{asset('adminBackend/assets/plugins/datatable/css/dataTables.bootstrap5.min.css')}}" rel="stylesheet" />
@@ -65,7 +66,7 @@
     <script src="{{asset('adminBackend/assets/plugins/vectormap/jquery-jvectormap-world-mill-en.js')}}"></script>
 	<script src="{{asset('adminBackend/assets/plugins/jquery.easy-pie-chart/jquery.easypiechart.min.js')}}"></script>
 	<script src="{{asset('adminBackend/assets/plugins/sparkline-charts/jquery.sparkline.min.js')}}"></script>
-
+	<script src="{{asset('adminBackend/assets/plugins/input-tags/js/tagsinput.js')}}"></script>
 	<script src="{{asset('adminBackend/assets/plugins/jquery-knob/excanvas.js')}}"></script>
 	<script src="{{asset('adminBackend/assets/plugins/jquery-knob/jquery.knob.js')}}"></script>
 	  <script>
@@ -82,6 +83,13 @@
 		</script>
 
 
+	<script src='https://cdn.tiny.cloud/1/vdqx2klew412up5bcbpwivg1th6nrh3murc6maz8bukgos4v/tinymce/5/tinymce.min.js' referrerpolicy="origin">
+	</script>
+	<script>
+		tinymce.init({
+		  selector: '#mytextarea'
+		});
+	</script>
 	<!--app JS-->
 	<script src="{{asset('adminBackend/assets/js/app.js')}}"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>

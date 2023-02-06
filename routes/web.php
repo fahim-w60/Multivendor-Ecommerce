@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\SubcategoryController;
+use App\Http\Controllers\Backend\ProductController;
 
 Route::get('/', function () {
     return view('frontend.index');
@@ -25,6 +26,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 // Route::get('/dashboard', function () {
 //      return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
+// It Students Of Nepal
 
 
 
@@ -77,13 +79,13 @@ Route::post('/vendor/register',[VendorController::class,'VendorRegister'])->name
 
 
 Route::middleware(['auth','role:admin'])->group(function (){
+
     //start brand area
     Route::controller(BrandController::class)->group(function(){
         Route::get('/all/brand','AllBrand')->name('all.brand');
         Route::get('/add/brand','AddBrand')->name('add.brand');
         Route::post('/store/brand','StoreBrand')->name('store.brand');
         Route::get('/edit/brand/{id}','EditBrand')->name('edit.brand');
-        
         Route::post('/update/brand/','UpdateBrand')->name('brand.update');
         Route::get('/delete/brand/{id}','DeleteBrand')->name('delete.brand');
     });
@@ -95,7 +97,6 @@ Route::middleware(['auth','role:admin'])->group(function (){
         Route::get('/add/category','AddCategory')->name('add.category');
         Route::post('/store/category','StoreCategory')->name('store.category');
         Route::get('/edit/category/{id}','EditCategory')->name('edit.category');
-        
         Route::post('/update/category/','UpdateCategory')->name('category.update');
         Route::get('/delete/category/{id}','DeleteCategory')->name('delete.category');
     });
@@ -107,7 +108,6 @@ Route::middleware(['auth','role:admin'])->group(function (){
         Route::get('/add/subcategory','AddSubCategory')->name('add.subcategory');
         Route::post('/store/subcategory','StoreSubCategory')->name('store.subcategory');
         Route::get('/edit/subcategory/{id}','EditSubCategory')->name('edit.subcategory');
-        
         Route::post('/update/subcategory/','UpdateSubCategory')->name('subcategory.update');
         Route::get('/delete/subcategory/{id}','DeleteSubCategory')->name('delete.subcategory');
     });
@@ -116,14 +116,27 @@ Route::middleware(['auth','role:admin'])->group(function (){
     //start vendor manage area
     Route::controller(AdminController::class)->group(function(){
         Route::get('/inactive/vendor','InactiveVendor')->name('inactive.vendor');
-        Route::get('/active/vendor','ActiveVendor')->name('active.vendor');
         Route::get('/inactive/vendor/details/{id}','InactiveVendorDetails')->name('inactive.vendor.details');
         Route::post('/activate/vendor','ActivateVendor')->name('activate.vendor');
-        
-        // Route::post('/update/subcategory/','UpdateSubCategory')->name('subcategory.update');
-        // Route::get('/delete/subcategory/{id}','DeleteSubCategory')->name('delete.subcategory');
+
+        Route::get('/active/vendor','ActiveVendor')->name('active.vendor');
+        Route::get('/active/vendor/details/{id}','ActiveVendorDetails')->name('active.vendor.details');
+        Route::post('/inactivate/vendor','InActivateVendor')->name('iactivate.vendor');
+
     });
     //end vendor manage area
+
+
+    //start product area
+    Route::controller(ProductController::class)->group(function(){
+        Route::get('/all/product','AllProduct')->name('all.product');
+        Route::get('/add/product','AddProduct')->name('add.product');
+        // Route::post('/store/category','StoreCategory')->name('store.category');
+        // Route::get('/edit/category/{id}','EditCategory')->name('edit.category');
+        // Route::post('/update/category/','UpdateCategory')->name('category.update');
+        // Route::get('/delete/category/{id}','DeleteCategory')->name('delete.category');
+    });
+    //end product area
 
 
 });

@@ -1,8 +1,9 @@
 @extends('admin.admin-dashboard')
 @section('title')
-	Active Vendor
+	All Product
 @endsection
 @section('admin')
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <div class="page-content">
   <!--breadcrumb-->
   <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
@@ -22,42 +23,43 @@
     <div class="ms-auto">
       <div class="btn-group">
         
-       
+        <a href="{{route('add.product')}}" class="btn btn-primary">Add Product</a>
       </div>
     </div>
   </div>
   <!--end breadcrumb-->
-  <h6 class="mb-0 text-uppercase">All Active Vendor</h6>
+  <h6 class="mb-0 text-uppercase">All Category</h6>
   <hr />
   <div class="card">
     <div class="card-body">
       <div class="table-responsive">
-      <table id="example" class="table table-striped table-bordered" style="width:100%">
+        <table id="example" class="table table-striped table-bordered" style="width:100%">
           <thead>
             <tr>
               <th>Sl</th>
-              <th>Shop Name</th>
-              <th>Vendor Username</th>
-              <th>Join Date</th>
-              <th>Vendor Email</th>
+              <th>Image</th>
+              <th>Product Name</th>
+              <th>Price</th>
+              <th>Qty</th>
+              <th>Discount</th>
               <th>Status</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody> 
-            @foreach($activeVendor as $key => $item) 
+            @foreach($productData as $key => $item) 
             {
                 <tr>
-                    
                     <td>{{$key+1}}</td>
-                    <td>{{$item->name}}</td>
-                    <td>{{$item->username}}</td>
-                    <td>{{$item->vendor_join}}</td>
-                    <td>{{$item->email}}</td>
-                    <td><span class="btn btn-secondary">{{$item->status}}</span></td>
+                    <td><img src="{{asset($item->product_thumbnail)}}" style="width:70px; height:40px;" alt=""></td>
+                   <td>{{$item->product_name}}</td>
+                   <td>{{$item->selling_price}}</td>
+                   <td>{{$item->product_qty}}</td>
+                   <td>{{$item->discount_price}}</td>
+                   <td>{{$item->status}}</td>
                     <td class="d-flex">
-                        <a href="{{route('active.vendor.details',['id' => $item->id])}}" class="btn btn-info mx-2">Vendor Details</a>
-                       
+                        <a href="#" class="btn btn-info mx-2">Edit</a>
+                        <a href="#" class="btn btn-danger" id="delete">Delete</a>
                     </td>
                 </tr>
             }

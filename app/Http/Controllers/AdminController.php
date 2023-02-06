@@ -116,4 +116,21 @@ class AdminController extends Controller
         );
         return redirect()->route('active.vendor')->with($notification);
     }
+    public function ActiveVendorDetails($id)
+    {
+        $vendordata = User::find($id);
+        return view('backend.vendor.activeVendorDetails',compact('vendordata'));
+    }
+    public function InActivateVendor(Request $request)
+    {
+        
+        $vendorId = User::find($request->vendor_id);
+        $vendorId->status = 'inactive';
+        $vendorId->save();
+        $notification = array(
+            'message' => 'Vendor Inacctivated Successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('inactive.vendor')->with($notification);
+    }
 }

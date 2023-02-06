@@ -25,7 +25,7 @@
     @include('frontend.body.header')
     <!--End header-->
     <main class="main pages">
-      @yield('user')
+      @yield('vendor')
     </main>
  @include('frontend.body.footer')
     <!-- Preloader Start -->

@@ -5,13 +5,26 @@
 @endsection
 
 @section('vendor')
+
+@php
+$id = Auth::user()->id;
+$vendorId = App\Models\User::find($id);
+$status = $vendorId->status;
+@endphp
 <div class="page-content">
+
+	@if($status == 'active')
+		<h4>Vendor Account is <span class="text-success">Active</span></h4>
+	@else
+		<h4>Vendor Account is <span class="text-danger">Inactive</span></h4>
+		<p class="text-danger"><b>Please Wait Admin Will Check and Approve Your Account</b></p>
+	@endif
 					<div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
 						<div class="col">
 							<div class="card radius-10 bg-gradient-deepblue">
 							 <div class="card-body">
 								<div class="d-flex align-items-center">
-									<h5 class="mb-0 text-white">9526</h5>
+									<h5 class="mb-0 text-white">9527</h5>
 									<div class="ms-auto">
                                         <i class='bx bx-cart fs-3 text-white'></i>
 									</div>
