@@ -47,9 +47,14 @@
                 <tr>
                     
                     <td>{{$key+1}}</td>
+                    
+                    @if($item['category']['category_name'])
                     <td>{{$item['category']['category_name']}}</td>
+                    @else
+                    <td></td>
+                    @endif
                     <td>
-                    {{$item->subcategory_name}}
+                        {{$item->subcategory_name}}
                     </td>
                     <td class="d-flex">
                         <a href="{{route('edit.subcategory',['id' => $item->id])}}" class="btn btn-info mx-2">Edit</a>

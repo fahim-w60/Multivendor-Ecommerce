@@ -110,18 +110,24 @@ Route::middleware(['auth','role:admin'])->group(function (){
         Route::get('/edit/subcategory/{id}','EditSubCategory')->name('edit.subcategory');
         Route::post('/update/subcategory/','UpdateSubCategory')->name('subcategory.update');
         Route::get('/delete/subcategory/{id}','DeleteSubCategory')->name('delete.subcategory');
+        Route::get('/subcategory/ajax/{category_id}' , 'GetSubCategory');
     });
     //end csubategory area
 
     //start vendor manage area
     Route::controller(AdminController::class)->group(function(){
+
+        //start inactive vendor area
         Route::get('/inactive/vendor','InactiveVendor')->name('inactive.vendor');
         Route::get('/inactive/vendor/details/{id}','InactiveVendorDetails')->name('inactive.vendor.details');
         Route::post('/activate/vendor','ActivateVendor')->name('activate.vendor');
+        //end inactive vendor area
 
+        //start active vendor area
         Route::get('/active/vendor','ActiveVendor')->name('active.vendor');
         Route::get('/active/vendor/details/{id}','ActiveVendorDetails')->name('active.vendor.details');
         Route::post('/inactivate/vendor','InActivateVendor')->name('iactivate.vendor');
+        //end active vendor area
 
     });
     //end vendor manage area
@@ -131,9 +137,9 @@ Route::middleware(['auth','role:admin'])->group(function (){
     Route::controller(ProductController::class)->group(function(){
         Route::get('/all/product','AllProduct')->name('all.product');
         Route::get('/add/product','AddProduct')->name('add.product');
-        // Route::post('/store/category','StoreCategory')->name('store.category');
-        // Route::get('/edit/category/{id}','EditCategory')->name('edit.category');
-        // Route::post('/update/category/','UpdateCategory')->name('category.update');
+        Route::post('/store/product' , 'StoreProduct')->name('store.product');
+        Route::get('/edit/product/{id}' , 'EditProduct')->name('edit.product');
+        Route::post('/update/product' , 'UpdateProduct')->name('update.product');
         // Route::get('/delete/category/{id}','DeleteCategory')->name('delete.category');
     });
     //end product area

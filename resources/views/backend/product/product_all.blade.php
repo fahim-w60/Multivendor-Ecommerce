@@ -58,9 +58,13 @@
                    <td>{{$item->discount_price}}</td>
                    <td>{{$item->status}}</td>
                     <td class="d-flex">
-                        <a href="#" class="btn btn-info mx-2">Edit</a>
-                        <a href="#" class="btn btn-danger" id="delete">Delete</a>
-                    </td>
+                    <a href="{{route('edit.product',$item->id)}}" class="btn btn-info" title="Edit Data"> <i class="fa fa-pencil"></i> </a>
+
+                    <a href="#" class="btn btn-danger" id="delete" title="Delete Data" ><i class="fa fa-trash"></i></a>
+
+                    <a href="#" class="btn btn-warning" title="Details Page"> <i class="fa fa-eye"></i> </a>
+
+                  </td>
                 </tr>
             }
             @endforeach

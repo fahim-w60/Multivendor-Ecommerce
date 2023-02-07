@@ -27,6 +27,8 @@
 	<link rel="stylesheet" href="{{asset('adminBackend/assets/css/header-colors.css')}}" />
 	<!-- Toaster CSS -->
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" >
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" >
+	
 	<title>@yield('title')</title>
 </head>
 
@@ -115,6 +117,8 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
  <script src="{{asset('adminBackend/assets/js/code.js')}}"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/brands.min.js"></script>
+ 
 </body>
 
 </html>
