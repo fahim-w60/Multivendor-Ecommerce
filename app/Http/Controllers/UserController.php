@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use App\Models\User;
+use App\Models\Product;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -80,5 +81,13 @@ class UserController extends Controller
         ]);
         return back()->with("status","Password Changed Successfully");
 
+    }
+    public function VendorDetailsForUser($id)
+    {
+        $product = Product::where('vendor_id',$id)->latest()->get();
+        $pro = count($product);
+        $vendor = User::where('id',$id)->where('role','vendor')->latest()->first();
+        
+        return view('vendor.frontend.vendor_details',compact('product','pro','vendor'));
     }
 }

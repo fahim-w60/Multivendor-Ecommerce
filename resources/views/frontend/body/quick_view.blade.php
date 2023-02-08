@@ -1,4 +1,7 @@
-<div class="modal fade custom-modal" id="quickViewModal" tabindex="-1" aria-labelledby="quickViewModalLabel" aria-hidden="true">
+
+
+
+<div class="modal fade custom-modal" id="quickViewModal{{$p->id}}" tabindex="-1" aria-labelledby="quickViewModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -7,6 +10,10 @@
                         <div class="col-md-6 col-sm-12 col-xs-12 mb-md-0 mb-sm-5">
                             <div class="detail-gallery">
                                 <span class="zoom-icon"><i class="fi-rs-search"></i></span>
+                                @php
+                                $product = App\Models\Product::where('id',$p->id)->first(); 
+
+                                @endphp
                                 <!-- MAIN SLIDES -->
         <div class="product-image-slider">
             <figure class="border-radius-10">
@@ -47,7 +54,7 @@
                         <div class="col-md-6 col-sm-12 col-xs-12">
                             <div class="detail-info pr-30 pl-30">
                                 <span class="stock-status out-stock"> Sale Off </span>
-                                <h3 class="title-detail"><a href="shop-product-right.html" class="text-heading">Seeds of Change Organic Quinoa, Brown</a></h3>
+                                <h3 class="title-detail"><a href="shop-product-right.html" class="text-heading">{{$product->name}} name</a></h3>
                                 <div class="product-detail-rating">
                                     <div class="product-rate-cover text-end">
                                         <div class="product-rate d-inline-block">

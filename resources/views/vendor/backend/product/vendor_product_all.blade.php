@@ -1,8 +1,8 @@
-@extends('admin.admin-dashboard')
+@extends('vendor.vendor-dashboard')
 @section('title')
-	All Product
+	Vendor All Product
 @endsection
-@section('admin')
+@section('vendor')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <div class="page-content">
   <!--breadcrumb-->
@@ -23,7 +23,7 @@
     <div class="ms-auto">
       <div class="btn-group">
         
-        <a href="{{route('add.product')}}" class="btn btn-primary">Add Product</a>
+        <a href="{{route('add.vendor.product')}}" class="btn btn-primary">Add Product</a>
       </div>
     </div>
   </div>
@@ -47,7 +47,7 @@
             </tr>
           </thead>
           <tbody> 
-            @foreach($productData as $key => $item) 
+            @foreach($products as $key => $item) 
             {
                 <tr>
                     <td>{{$key+1}}</td>
@@ -58,9 +58,9 @@
                    <td>{{$item->discount_price}}</td>
                    <td>{{$item->status}}</td>
                     <td class="d-flex">
-                    <a href="{{route('edit.product',$item->id)}}" class="btn btn-info" title="Edit Data"> <i class="fa fa-pencil"></i> </a>
+                    <a href="{{route('vendor.edit.product',$item->id)}}" class="btn btn-info" title="Edit Data"> <i class="fa fa-pencil"></i> </a>
 
-                    <a href="#" class="btn btn-danger" id="delete" title="Delete Data" ><i class="fa fa-trash"></i></a>
+                    <a href="{{route('vendor.delete.product',$item->id)}}" class="btn btn-danger" id="delete" title="Delete Data" ><i class="fa fa-trash"></i></a>
 
                     
 

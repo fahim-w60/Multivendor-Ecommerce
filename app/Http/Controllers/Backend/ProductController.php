@@ -33,11 +33,11 @@ class ProductController extends Controller
     public function StoreProduct(Request $request){
 
         
-        $image = $request->file('product_thambnail');
-        // $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-        $name_gen = time().'.'.$image;
-        Image::make($image)->resize(800,800)->save('upload/products/thambnail/'.$name_gen);
-        $save_url = 'upload/products/thambnail/'.$name_gen;
+        // $image = $request->file('product_thambnail');
+        // $name_gen = hexdec(uniqid()).'.'.$image->file('product_thambnail')->getClientOriginalExtension();
+        // // $name_gen = time().'.'.$image;
+        // Image::make($image->file('product_thambnail'))->resize(800,800)->save('upload/products/thambnail/'.$name_gen);
+        // $save_url = 'upload/products/thambnail/'.$name_gen;
 
         $product_id = Product::insertGetId([
 
@@ -63,7 +63,7 @@ class ProductController extends Controller
             'special_offer' => $request->special_offer,
             'special_deals' => $request->special_deals, 
 
-            'product_thumbnail' => $save_url,
+            // 'product_thumbnail' => $save_url,
             'vendor_id' => $request->vendor_id,
             'status' => 1,
             'created_at' => Carbon::now(), 

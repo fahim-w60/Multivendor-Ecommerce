@@ -9,6 +9,7 @@ use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\SubcategoryController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\VendorProductController;
 
 Route::get('/', function () {
     return view('frontend.index');
@@ -20,6 +21,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/user/profile/store',[UserController::class,'UserProfileStore'])->name('user.profile.store');
     Route::get('/user/logout',[UserController::class,'UserLogout'])->name('user.logout');
     Route::post('/user/update/password',[UserController::class,'UserUpdatePassword'])->name('user.update.password');
+    Route::get('/user/show/vendor/details/{id}',[UserController::class,'VendorDetailsForUser'])->name('user.vendor.details');
 });
 
 
@@ -65,6 +67,24 @@ Route::middleware(['auth','role:vendor'])->group(function (){
 
     Route::get('/vendor/change/password',[VendorController::class,'VendorChangePassword'])->name('vendor.change.password');
     Route::post('/vendor/update/password',[VendorController::class,'VendorUpdatePassword'])->name('vendor.update.password');
+    
+    
+    
+    
+    Route::controller(VendorProductController::class)->group(function(){
+        Route::get('/vendor/all/product','VendorAllProduct')->name('vendor.all.product');
+        Route::get('/vendor/add/product','VendorAddProduct')->name('add.vendor.product');
+        Route::post('/vendor/store/product' , 'VendorStoreProduct')->name('vendor.store.product');
+        Route::get('/vendor/edit/product/{id}' , 'VendorEditProduct')->name('vendor.edit.product');
+        Route::post('/vendor/update/product' , 'VendorUpdateProduct')->name('vendor.update.product');
+
+
+        Route::get('/vendor/subcategory/ajax/{category_id}' , 'VendorGetSubCategory');
+        // Route::post('/store/product' , 'StoreProduct')->name('store.product');
+        // Route::get('/edit/product/{id}' , 'EditProduct')->name('edit.product');
+        // Route::post('/update/product' , 'UpdateProduct')->name('update.product');
+        Route::get('vendor/delete/product/{id}','DeleteVendorProduct')->name('vendor.delete.product');
+    });
 
 });
 

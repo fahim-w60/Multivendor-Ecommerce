@@ -21,11 +21,12 @@
 </head>
 
 <body>
+@include('frontend.body.quick_view')
     <!-- Quick view -->
-    @include('frontend.body.header')
+@include('frontend.body.header')
     <!--End header-->
     <main class="main pages">
-      @yield('vendor')
+    @yield('vendor')
     </main>
  @include('frontend.body.footer')
     <!-- Preloader Start -->
