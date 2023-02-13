@@ -63,6 +63,10 @@
                   </div>
                 </div>
               </div>
+              @php
+              $orders = App\Models\Order::where('user_id',Auth::User()->id)->latest()->get();
+              $i=1;
+              @endphp
               <div class="tab-pane fade" id="orders" role="tabpanel" aria-labelledby="orders-tab">
                 <div class="card">
                   <div class="card-header">
@@ -70,46 +74,38 @@
                   </div>
                   <div class="card-body">
                     <div class="table-responsive">
+                      
                       <table class="table">
                         <thead>
                           <tr>
                             <th>Order</th>
-                            <th>Date</th>
-                            <th>Status</th>
+                            <th>Product Name</th>
+                            <th>Vendor</th>
                             <th>Total</th>
-                            <th>Actions</th>
+                            <th>Discount</th>
                           </tr>
                         </thead>
                         <tbody>
+                          
+                          
+                          @foreach($orders as $order)
+                          @php
+                          
+                          $product_name = App\Models\Product::where('id',$order->product_id)->latest()->first();
+                          $vendor = App\Models\User::where('id',$order->vendor_id)->where('role','vendor')->latest()->first();
+                          @endphp
                           <tr>
-                            <td>#1357</td>
-                            <td>March 45, 2020</td>
-                            <td>Processing</td>
-                            <td>$125.00 for 2 item</td>
-                            <td>
-                              <a href="#" class="btn-small d-block">View</a>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>#2468</td>
-                            <td>June 29, 2020</td>
-                            <td>Completed</td>
-                            <td>$364.00 for 5 item</td>
-                            <td>
-                              <a href="#" class="btn-small d-block">View</a>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>#2366</td>
-                            <td>August 02, 2020</td>
-                            <td>Completed</td>
-                            <td>$280.00 for 3 item</td>
-                            <td>
-                              <a href="#" class="btn-small d-block">View</a>
-                            </td>
-                          </tr>
+                            <td>{{$i++}}</td>
+                            <td>{{$product_name->product_name}}</td>
+                            <td>{{$vendor->name}}</td>
+                            <td>{{$order->total_amount}}</td>
+                            <td>{{$order->discount_amount}}</td>
+                            </tr>
+                            @endforeach
+                          
                         </tbody>
                       </table>
+                      
                     </div>
                   </div>
                 </div>

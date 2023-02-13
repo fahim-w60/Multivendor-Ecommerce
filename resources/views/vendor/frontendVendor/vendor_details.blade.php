@@ -65,6 +65,9 @@
                     </div>
                     <div class="row product-grid">
                         @foreach($product as $p)
+
+                        
+                        @include('frontend.body.quick_view')
                         <div class="col-lg-1-5 col-md-4 col-12 col-sm-6">
                             <div class="product-cart-wrap mb-30">
                                 <div class="product-img-action-wrap">
@@ -74,10 +77,12 @@
                                             <img class="hover-img" src="{{asset('frontend/assets/imgs/shop/product-1-2.jpg')}}" alt="" />
                                         </a>
                                     </div>
+
+                                                                     
                                     <div class="product-action-1">
                                         <a aria-label="Add To Wishlist" class="action-btn" href="#"><i class="fi-rs-heart"></i></a>
                                         <a aria-label="Compare" class="action-btn" href="#"><i class="fi-rs-shuffle"></i></a>
-                                        <a aria-label="Quick view" class="action-btn" data-bs-toggle="modal" data-bs-target = "#quickViewModal{{$p->id}}"><i class="fi-rs-eye"></i></a>
+                                        <a aria-label="Quick view" class="action-btn" data-bs-toggle="modal" data-bs-target ="#quickViewModal_{{$p->id}}"><i class="fi-rs-eye"></i></a>
                                     </div>
                                     <div class="product-badges product-badges-position product-badges-mrg">
                                         <span class="hot">Hot</span>
@@ -95,7 +100,7 @@
                                         <span class="font-small ml-5 text-muted"> (4.0)</span>
                                     </div>
                                     <div>
-                                        <span class="font-small text-muted">By <a href="vendor-details-1.html">{{$vendor->name}}</a></span>
+                                        <span class="font-small text-muted">By <a href="">{{$vendor->name}}</a></span>
                                     </div>
                                     @php
                                     $price = $p->selling_price-$p->discount_price;
@@ -106,52 +111,16 @@
                                             <span class="old-price">{{$p->selling_price}} taka</span>
                                         </div>
                                         <div class="add-cart">
-                                            <a class="add" href="shop-cart.html"><i class="fi-rs-shopping-cart mr-5"></i>Add </a>
+                                            
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                       
                         @endforeach
-                        <!--end product card-->
                         
-                        <!--end product card-->
-                      
-                        <!--end product card-->
-                        
-                        <!--end product card-->
-                      
-                        <!--end product card-->
-                       
-                        <!--end product card-->
-                       
-                        <!--end product card-->
-                        
-                        <!--end product card-->
-                       
-                        <!--end product card-->
-                       
-                        <!--end product card-->
-                       
-                        <!--end product card-->
-                       
-                        <!--end product card-->
-                        
-                        <!--end product card-->
-                       
-                        <!--end product card-->
-                       
-                        <!--end product card-->
-                        
-                        <!--end product card-->
-                       
-                        <!--end product card-->
-                       
-                        <!--end product card-->
-                      
-                        <!--end product card-->
-                       
-                        <!--end product card-->
+                     
                     </div>
                     <!--product grid-->
                     <div class="pagination-area mt-20 mb-20">
@@ -221,7 +190,7 @@
                             <div class="vendor-info">
                                 <ul class="font-sm mb-20">
                                     <li><img class="mr-5" src="assets/imgs/theme/icons/icon-location.svg" alt="" /><strong>Address: </strong> <span>5171 W Campbell Ave undefined, Utah 53127 United States</span></li>
-                                    <li><img class="mr-5" src="assets/imgs/theme/icons/icon-contact.svg" alt="" /><strong>Call Us:</strong><span>(+91) - 540-025-124553</span></li>
+                                    <li><img class="mr-5" src="assets/imgs/theme/icons/icon-contact.svg" alt="" /><strong>Call Us:</strong><span></span></li>
                                 </ul>
                                 <a href="vendor-details-1.html" class="btn btn-xs">Contact Seller <i class="fi-rs-arrow-small-right"></i></a>
                             </div>

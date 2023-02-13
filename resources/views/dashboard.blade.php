@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta property="og:title" content="" />
     <meta property="og:type" content="" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta property="og:url" content="" />
     <meta property="og:image" content="" />
     <!-- Favicon -->
@@ -17,11 +18,12 @@
 
     <!-- Toaster CSS -->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" >
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.1/dist/sweetalert2.min.css" rel="stylesheet">
     
 </head>
 
 <body>
-@include('frontend.body.quick_view')
+
     <!-- Quick view -->
 @include('frontend.body.header')
     <!--End header-->
@@ -61,6 +63,9 @@
     <script src="{{ asset('frontend/assets/js/main.js?v=5.3') }}"></script>
     <script src="{{ asset('frontend/assets/js/shop.js?v=5.3') }}"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="
+https://cdn.jsdelivr.net/npm/sweetalert2@11.7.1/dist/sweetalert2.all.min.js
+"></script>
     <script>
     @if(Session::has('message'))
         var type = "{{ Session::get('alert-type','info') }}"
@@ -79,6 +84,39 @@
             break; 
         }
     @endif 
+</script>
+<script>
+    $.ajaxSetup({
+   headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+   }
+});
+</script>
+
+
+<script>
+    function addToCart(productId){
+        let qntity = $('#qty_'+productId).val();
+        let product_id = productId;
+        let vendor_id = $('#vendor_id').val();
+
+        $.ajax({
+            type:"POST",
+            url:"{{route('user.addtocart')}}",
+            data: {
+                product_id : product_id,
+                qntity:qntity,
+                vendor_id : vendor_id,
+                
+            },
+            success:function(data){
+                Swal.fire(data.message)
+            },
+            error: function(error){
+                console.log(error)
+            }
+        });
+    }
 </script>
 
 </body>

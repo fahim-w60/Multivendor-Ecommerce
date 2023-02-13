@@ -10,6 +10,7 @@ use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\SubcategoryController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\VendorProductController;
+use App\Http\Controllers\CartController;
 
 Route::get('/', function () {
     return view('frontend.index');
@@ -21,14 +22,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/user/profile/store',[UserController::class,'UserProfileStore'])->name('user.profile.store');
     Route::get('/user/logout',[UserController::class,'UserLogout'])->name('user.logout');
     Route::post('/user/update/password',[UserController::class,'UserUpdatePassword'])->name('user.update.password');
-    Route::get('/user/show/vendor/details/{id}',[UserController::class,'VendorDetailsForUser'])->name('user.vendor.details');
+    Route::post('/add-to-cart',[CartController::class,'AddToCart'])->name('user.addtocart');
+    Route::get('/user/cart_details',[CartController::class,'UserCartDetails'])->name('user.cart_details');
+    Route::get('/delete/product/session/{id}',[CartController::class,'SessionProductDelete'])->name('session.product.delete');
+    Route::get('/confirm/order',[CartController::class,'ConfirmOrder'])->name('confirm.order');
 });
-
 
 // Route::get('/dashboard', function () {
 //      return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 // It Students Of Nepal
+// Get Job Ready: Power BI Data Analytics for All Levels
 
 
 
@@ -40,6 +44,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    
 });
 
 
@@ -89,13 +94,15 @@ Route::middleware(['auth','role:vendor'])->group(function (){
 });
 
 
-
+Route::get('/user/show/vendor/details/{id}',[UserController::class,'VendorDetailsForUser'])->name('user.vendor.details');
 Route::get('/vendor/login',[VendorController::class,'Vendor_Login'])->name('vendor.login');
 Route::get('/admin/login',[AdminController::class,'AdminLogin'])->name('admin.login');
 
 Route::get('/vendor/becomevendor',[VendorController::class,'BecomeVendor'])->name('become.vendor');
 
 Route::post('/vendor/register',[VendorController::class,'VendorRegister'])->name('vendor.register');
+
+
 
 
 Route::middleware(['auth','role:admin'])->group(function (){

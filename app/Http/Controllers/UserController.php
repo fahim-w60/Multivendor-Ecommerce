@@ -88,6 +88,6 @@ class UserController extends Controller
         $pro = count($product);
         $vendor = User::where('id',$id)->where('role','vendor')->latest()->first();
         
-        return view('vendor.frontend.vendor_details',compact('product','pro','vendor'));
+        return view('vendor.frontendVendor.vendor_details',compact('product','pro','vendor'));
     }
 }
