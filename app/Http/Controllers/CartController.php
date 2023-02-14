@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Models\Product;
-use App\Models\Order;
+use App\Models\Order1;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -46,7 +46,7 @@ class CartController extends Controller
         foreach($product as $item => $pro)
         {
             $count++;
-            $data = new Order();
+            $data = new Order1();
             $pro_details = Product::where('id',$item)->latest()->first();
             $data->user_id = Auth::user()->id;
             $data->product_id = $item;

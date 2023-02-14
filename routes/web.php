@@ -11,6 +11,8 @@ use App\Http\Controllers\Backend\SubcategoryController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\VendorProductController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\SslCommerzPaymentController;
+
 
 Route::get('/', function () {
     return view('frontend.index');
@@ -26,6 +28,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/user/cart_details',[CartController::class,'UserCartDetails'])->name('user.cart_details');
     Route::get('/delete/product/session/{id}',[CartController::class,'SessionProductDelete'])->name('session.product.delete');
     Route::get('/confirm/order',[CartController::class,'ConfirmOrder'])->name('confirm.order');
+
+    //for payment gateway
+    Route::get('/example1', [SslCommerzPaymentController::class, 'exampleEasyCheckout'])->name('easy.checkout');
+    Route::get('/example2', [SslCommerzPaymentController::class, 'exampleHostedCheckout']);
+
+    Route::post('/pay', [SslCommerzPaymentController::class, 'index']);
+    Route::post('/pay-via-ajax', [SslCommerzPaymentController::class, 'payViaAjax']);
+
+    Route::post('/success', [SslCommerzPaymentController::class, 'success']);
+    Route::post('/fail', [SslCommerzPaymentController::class, 'fail']);
+    Route::post('/cancel', [SslCommerzPaymentController::class, 'cancel']);
+
+    Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn']);
+    //for payment gateway
+
+
 });
 
 // Route::get('/dashboard', function () {

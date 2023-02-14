@@ -64,7 +64,7 @@
                 </div>
               </div>
               @php
-              $orders = App\Models\Order::where('user_id',Auth::User()->id)->latest()->get();
+              $orders = App\Models\Order1::where('user_id',Auth::User()->id)->latest()->get();
               $i=1;
               @endphp
               <div class="tab-pane fade" id="orders" role="tabpanel" aria-labelledby="orders-tab">
@@ -100,6 +100,12 @@
                             <td>{{$vendor->name}}</td>
                             <td>{{$order->total_amount}}</td>
                             <td>{{$order->discount_amount}}</td>
+                            <td><a href="{{route('easy.checkout')}}"><button id=""
+                                  token="if you have any token validation"
+                                  postdata=""
+                                  order="If you already have the transaction generated for current order"
+                                  endpoint="/pay-via-ajax"> Pay Now
+                            </button></a></td>
                             </tr>
                             @endforeach
                           
