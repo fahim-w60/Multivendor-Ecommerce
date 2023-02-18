@@ -74,7 +74,22 @@
 				 {!! $products->long_descp !!}</textarea>
 			  </div>
 
+  			<div class="form-group mb-3">
+				<label for="inputProductTitle" class="form-label">Main Thambnail</label>
+				<input name="product_thambnail" class="form-control" type="file" id="formFile" onChange="mainThamUrl(this)" >
 
+				<img src="" id="mainThmb" />
+			</div>
+
+
+
+  			<div class="form-group mb-3">
+				<label for="inputProductTitle" class="form-label">Multiple Image</label>
+				<input class="form-control" name="multi_img[]" type="file" id="multiImg" multiple="">
+
+					<div class="row" id="preview_img"></div>
+
+			</div>
 
 
 

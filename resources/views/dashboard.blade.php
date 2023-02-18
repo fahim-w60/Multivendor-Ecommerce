@@ -99,7 +99,8 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.1/dist/sweetalert2.all.min.js
         let qntity = $('#qty_'+productId).val();
         let product_id = productId;
         let vendor_id = $('#vendor_id').val();
-
+        
+     
         $.ajax({
             type:"POST",
             url:"{{route('user.addtocart')}}",
@@ -107,7 +108,6 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.1/dist/sweetalert2.all.min.js
                 product_id : product_id,
                 qntity:qntity,
                 vendor_id : vendor_id,
-                
             },
             success:function(data){
                 Swal.fire(data.message)

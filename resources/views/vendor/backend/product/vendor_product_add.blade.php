@@ -8,21 +8,21 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <div class="page-content">
 
-				<!--breadcrumb-->
-				<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-					<div class="breadcrumb-title pe-3">Add Vendor Product</div>
-					<div class="ps-3">
-						<nav aria-label="breadcrumb">
-							<ol class="breadcrumb mb-0 p-0">
-								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
-								</li>
-								<li class="breadcrumb-item active" aria-current="page">Add Vendor Product</li>
-							</ol>
-						</nav>
-					</div>
+	<!--breadcrumb-->
+	<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+		<div class="breadcrumb-title pe-3">Add Vendor Product</div>
+		<div class="ps-3">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb mb-0 p-0">
+					<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+					</li>
+					<li class="breadcrumb-item active" aria-current="page">Add Vendor Product</li>
+				</ol>
+			</nav>
+		</div>
 
-				</div>
-				<!--end breadcrumb-->
+	</div>
+	<!--end breadcrumb-->
 
 <div class="card">
   <div class="card-body p-4">
@@ -72,22 +72,22 @@
 
 
 
-  <div class="form-group mb-3">
+  			<div class="form-group mb-3">
 				<label for="inputProductTitle" class="form-label">Main Thambnail</label>
 				<input name="product_thambnail" class="form-control" type="file" id="formFile" onChange="mainThamUrl(this)" >
 
 				<img src="" id="mainThmb" />
-			  </div>
+			</div>
 
 
 
-  <div class="form-group mb-3">
+  			<div class="form-group mb-3">
 				<label for="inputProductTitle" class="form-label">Multiple Image</label>
 				<input class="form-control" name="multi_img[]" type="file" id="multiImg" multiple="">
 
-			<div class="row" id="preview_img"></div>
+					<div class="row" id="preview_img"></div>
 
-			  </div>
+			</div>
 
 
 

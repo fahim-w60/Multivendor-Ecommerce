@@ -30,7 +30,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/confirm/order',[CartController::class,'ConfirmOrder'])->name('confirm.order');
 
     //for payment gateway
-    Route::get('/example1', [SslCommerzPaymentController::class, 'exampleEasyCheckout'])->name('easy.checkout');
+    Route::post('/example1', [SslCommerzPaymentController::class, 'exampleEasyCheckout'])->name('easy.checkout');
     Route::get('/example2', [SslCommerzPaymentController::class, 'exampleHostedCheckout']);
 
     Route::post('/pay', [SslCommerzPaymentController::class, 'index']);
