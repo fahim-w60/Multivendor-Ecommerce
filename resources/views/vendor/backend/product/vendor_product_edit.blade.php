@@ -28,7 +28,7 @@
 	  <h5 class="card-title">Edit Vendor Product</h5>
 	  <hr/>
 
-<form id="myForm" method="post" action="{{ route('vendor.update.product') }}"  >
+<form action="{{ route('vendor.update.product') }}" method="POST" id="myForm" enctype="multipart/form-data">
 			@csrf
 
 		<input type="hidden" name="id" value="{{ $products->id }}">

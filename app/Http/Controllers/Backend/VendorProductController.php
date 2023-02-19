@@ -14,6 +14,7 @@ use App\Models\Brand;
 use App\Models\User;
 use Carbon\Carbon;
 use Image;
+use DB;
 
 class VendorProductController extends Controller
 {
@@ -45,10 +46,8 @@ class VendorProductController extends Controller
 
         $image = $request->file('product_thambnail');
         $directory = 'upload/products/thambnail/';
-        $imageName = rand().date('Y-m-d').time().'_image.'.$image->getClientOriginalExtension();    
-        
+        $imageName = rand().date('Y-m-d').time().'_image.'.$image->getClientOriginalExtension();   
         $save_url = $directory.$imageName;
-
         $image->move($directory,$imageName);
 
         
@@ -84,7 +83,7 @@ class VendorProductController extends Controller
 
         ]);
 
-        /// Multiple Image Upload From her //////
+        /// Multiple Image Upload From here //////
         $images = $request->file('multi_img');
         foreach($images as $img){
         $directory = 'upload/products/multi_img/';
@@ -121,33 +120,22 @@ class VendorProductController extends Controller
 
 
     public function VendorUpdateProduct(Request $request){
-        
-        
-            $product_id = Product::find($request->id);
-            return 'hello';
             
-            if($request->hasFile('product_thumbnail'))
-            {
-              
-                           
-                //unlink($product_id->product_thumbnail);
-                $image = $request->file('product_thambnail');   
-                
-              
 
+            $product_id = Product::find($request->id);
+
+            if($request->has('product_thambnail'))
+            {
+                // unlink($product_id->product_thumbnail);   
+  
                 $directory = 'upload/products/thambnail/';
-         
-                $imageName = rand().date('Y-m-d').time().'_image.'.$image->getClientOriginalExtension();     
-                
-                return $imageName;
-                
+                $image = $request->file('product_thambnail');  
+                $imageName = rand().date('Y-m-d').time().'_image.'.$image->getClientOriginalExtension();         
                 $save_url = $directory.$imageName;
-        
                 $image->move($directory,$imageName);
             }
-           
-
-            Product::findOrFail($product_id)->update([
+      
+            Product::where('id',$product_id)->update([
             'brand_id' => $request->brand_id,
             'category_id' => $request->category_id,
             'subcategory_id' => $request->subcategory_id,
@@ -169,41 +157,57 @@ class VendorProductController extends Controller
 
             'product_thumbnail' => $save_url,  
             'status' => 1,
-            'created_at' => Carbon::now(), 
+            
         ]);
 
-
-        /// Multiple Image Edit From here //////
-        // $product_id = MultiImg::find($request->id);
-
-        return $product_id;
-        return $request->multi_img;
-        if($request->hasFile('multi_img')) 
-        {   
-            $images = $request->file('multi_img');
-            
-            foreach($images as $img){
-            unlink($product_id->photo_name);
-            $directory = 'upload/products/multi_img/';
-            $imageName = rand().date('Y-m-d').time().'_image.'.$img->getClientOriginalExtension();    
-            
-            $img->move($directory,$imageName);
-            MultiImg::where($product_id)->update([
-                
-                'photo_name' => $directory.$imageName,
-            ]); 
-            } // end foreach
-        }
-        /// End Multiple Image Edited From here //////
         
-
+        /// Multiple Image Edit From here //////
+        
+    //     $products = MultiImg::where('product_id',$request->id)->latest()->get();
+    //   // dd($products);
+        
+    //     if($request->has('multi_img')) 
+    //     {   
+    //         foreach($products as $product)
+    //         {
+    //             // unlink($product->photo_name);
+    //         } 
+    //         $images = $request->file('multi_img');
+    //         foreach($images as $img){
+    //        dd($images);
+    //         $directory = 'upload/products/multi_img/';
+    //         $imageName = rand().date('Y-m-d').time().'_image.'.$img->getClientOriginalExtension();    
+    //         $img->move($directory,$imageName);
+          
+    //         MultiImg::where('product_id',$product_id)->update([
+    //             'photo_name' => $directory.$imageName, 
+    //         ]);
+         
+    //         } // end foreach
+    //     }
+            $imgs = $request->multi_img;
+            foreach($imgs as $id => $img) {
+            $imgDel = MultiImg::findOrFail($id);
+            dd($imgDel);
+            unlink($imgDel->photo_name);
+            
+            $make_name = hexdec(uniqid()).'.'.$img->getClientOriginalExtension();
+            Image::make($img)->resize(917,1000)->save('upload/products/multi-image/'.$make_name);
+            $uploadPath = 'upload/products/multi-image/'.$make_name;
+            MultiImg::where('id',$id)->update([
+                'photo_name' => $uploadPath,
+                'updated_at' => Carbon::now(),
+            ]);        
+        /// End Multiple Image Edited From here //////
          $notification = array(
-            'message' => 'Vendor Product Updated Without Image Successfully',
+            'message' => 'Vendor Product Updated Successfully',
             'alert-type' => 'success'
         );
 
         return redirect()->route('vendor.all.product')->with($notification);
     } 
+}
+
     public function DeleteVendorProduct($id)
     {
         $data = Product::find($id);
