@@ -25,19 +25,18 @@ class ProductController extends Controller
     {
         $brands = Brand::all();
         $categories = Category::all();
-        
-        
+
+
         $activeVendor = User::where('status','active')->where('role','vendor')->latest()->get();
         return view('backend.product.product_add',compact('brands','categories','activeVendor'));
     }
     public function StoreProduct(Request $request){
 
-        
-        // $image = $request->file('product_thambnail');
-        // $name_gen = hexdec(uniqid()).'.'.$image->file('product_thambnail')->getClientOriginalExtension();
-        // // $name_gen = time().'.'.$image;
-        // Image::make($image->file('product_thambnail'))->resize(800,800)->save('upload/products/thambnail/'.$name_gen);
-        // $save_url = 'upload/products/thambnail/'.$name_gen;
+        $image = $request->file('product_thumbnail');
+        $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+        // $name_gen = time().'.'.$image;
+        Image::make($image->getRealPath())->resize(800,800)->save('upload/products/thambnail/'.$name_gen);
+        $save_url = 'upload/products/thambnail/'.$name_gen;
 
         $product_id = Product::insertGetId([
 
@@ -56,37 +55,40 @@ class ProductController extends Controller
             'selling_price' => $request->selling_price,
             'discount_price' => $request->discount_price,
             'short_descp' => $request->short_descp,
-            'long_descp' => $request->long_descp, 
+            'long_descp' => $request->long_descp,
 
             'hot_deals' => $request->hot_deals,
             'featured' => $request->featured,
             'special_offer' => $request->special_offer,
-            'special_deals' => $request->special_deals, 
+            'special_deals' => $request->special_deals,
 
-            // 'product_thumbnail' => $save_url,
+            'product_thumbnail' => $save_url,
             'vendor_id' => $request->vendor_id,
             'status' => 1,
-            'created_at' => Carbon::now(), 
+            'created_at' => Carbon::now(),
 
         ]);
 
         // Multiple Image Upload From here //
-        // $images = $request->file('multi_img');
-        // foreach($images as $img){
-        // $make_name = hexdec(uniqid()).'.'.$img('multi_img')->getClientOriginalExtension();
-        // Image::make($img('multi_img'))->resize(800,800)->save('upload/products/multi-image/'.$make_name);
-        // $uploadPath = 'upload/products/multi-image/'.$make_name;
 
 
 
-        // MultiImg::insert([
+        $images = $request->file('multi_img');
 
-        //     'product_id' => $product_id,
-        //     'photo_name' => $uploadPath,
-        //     'created_at' => Carbon::now(), 
+        foreach($images as $image){
+        $make_name = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+        Image::make($image->getRealPath())->resize(800,800)->save('upload/products/multi_img/'.$make_name);
+        // Image::make($image->getRealPath())->resize(800,800)->save('upload/products/thambnail/'.$name_gen);
+        $uploadPath = 'upload/products/multi_img/'.$make_name;
 
-        // ]); 
-        // } // end foreach
+        MultiImg::insert([
+
+            'product_id' => $product_id,
+            'photo_name' => $uploadPath,
+            'created_at' => Carbon::now(),
+
+        ]);
+        } // end foreach
 
         /// End Multiple Image Upload From her //////
 
@@ -95,8 +97,9 @@ class ProductController extends Controller
             'alert-type' => 'success'
         );
 
-        return redirect()->route('all.product')->with($notification); 
-    } 
+        return redirect()->route('all.product')->with($notification);
+    }
+
     // End Method
     public function EditProduct($id){
         $activeVendor = User::where('status','active')->where('role','vendor')->latest()->get();
@@ -105,12 +108,20 @@ class ProductController extends Controller
          $subcategory = SubCategory::latest()->get();
          $products = Product::findOrFail($id);
          return view('backend.product.product_edit',compact('brands','categories','activeVendor','products','subcategory'));
-     }// End Method 
+     }// End Method
 
 
      public function UpdateProduct(Request $request){
 
+
         $product_id = $request->id;
+        return $request->product_thumbnail;
+        $image = $request->file('product_thumbnail');
+        dd($image);
+        $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+        // $name_gen = time().'.'.$image;
+        Image::make($image->getRealPath())->resize(800,800)->save('upload/products/thambnail/'.$name_gen);
+        $save_url = 'upload/products/thambnail/'.$name_gen;
 
         Product::findOrFail($product_id)->update([
 
@@ -129,27 +140,49 @@ class ProductController extends Controller
        'selling_price' => $request->selling_price,
        'discount_price' => $request->discount_price,
        'short_descp' => $request->short_descp,
-       'long_descp' => $request->long_descp, 
+       'long_descp' => $request->long_descp,
 
+       'product_thumbnail' => $save_url,
        'hot_deals' => $request->hot_deals,
        'featured' => $request->featured,
        'special_offer' => $request->special_offer,
-       'special_deals' => $request->special_deals, 
+       'special_deals' => $request->special_deals,
 
 
        'vendor_id' => $request->vendor_id,
        'status' => 1,
-       'created_at' => Carbon::now(), 
+       'created_at' => Carbon::now(),
 
    ]);
 
+           // Multiple Image Updated From here //
+
+
+
+        //    $images = $request->file('multi_img');
+
+        //    foreach($images as $image){
+        //    $make_name = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+        //    Image::make($image->getRealPath())->resize(800,800)->save('upload/products/multi_img/'.$make_name);
+        //    // Image::make($image->getRealPath())->resize(800,800)->save('upload/products/thambnail/'.$name_gen);
+        //    $uploadPath = 'upload/products/multi_img/'.$make_name;
+
+        //    MultiImg::insert([
+
+        //        'product_id' => $product_id,
+        //        'photo_name' => $uploadPath,
+        //        'created_at' => Carbon::now(),
+
+        //    ]);
+        //    } // end foreach
+
 
     $notification = array(
-       'message' => 'Product Updated Without Image Successfully',
+       'message' => 'Product Updated Successfully',
        'alert-type' => 'success'
    );
 
-   return redirect()->route('all.product')->with($notification); 
+   return redirect()->route('all.product')->with($notification);
 
-}// End Method 
+}// End Method
 }

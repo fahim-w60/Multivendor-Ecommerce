@@ -62,18 +62,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    
+
 });
 
 
 //Admin Dashboard
 Route::middleware(['auth','role:admin'])->group(function (){
-    
+
     Route::get('/admin/dashboard',[AdminController::class,'AdminDashboard'])->name('admin.dashboard');
     Route::get('/admin/logout',[AdminController::class,'AdminDestroy'])->name('admin.logout');
     Route::get('/admin/profile',[AdminController::class,'AdminProfile'])->name('admin.profile');
     Route::post('/admin/profile/store',[AdminController::class,'AdminProfileStore'])->name('admin.data.store');
-    
+
     Route::get('/admin/change/password',[AdminController::class,'AdminChangePassword'])->name('admin.change.password');
     Route::post('/admin/update/password',[AdminController::class,'AdminUpdatePassword'])->name('admin.update.password');
 
@@ -90,10 +90,10 @@ Route::middleware(['auth','role:vendor'])->group(function (){
 
     Route::get('/vendor/change/password',[VendorController::class,'VendorChangePassword'])->name('vendor.change.password');
     Route::post('/vendor/update/password',[VendorController::class,'VendorUpdatePassword'])->name('vendor.update.password');
-    
-    
-    
-    
+
+
+
+
     Route::controller(VendorProductController::class)->group(function(){
         Route::get('/vendor/all/product','VendorAllProduct')->name('vendor.all.product');
         Route::get('/vendor/add/product','VendorAddProduct')->name('add.vendor.product');
