@@ -34,7 +34,7 @@
 				  <div class="card-body p-4">
 					  <h5 class="card-title">Add New Product</h5>
 					  <hr/>
-				<form id="myForm" method="post" action="{{route('store.product')}}" enctype="multipart/form-data" >
+				<form id="myForm" method="POST" action="{{route('store.product')}}" enctype="multipart/form-data">
 						@csrf
                        <div class="form-body mt-4">
 					    <div class="row">
@@ -63,15 +63,19 @@
 							  </div>
 
                               <div class="form-group mb-3">
-								<label for="inputProductDescription" class="form-label">Long Description</label>
-								<textarea id="mytextarea" name="long_descp">Hello, World!</textarea>
+                                    <label for="inputProductDescription" class="form-label">Long Description</label>
+                                    <textarea id="mytextarea" name="long_descp">Hello, World!</textarea>
 							  </div>
 
-                              <div class="form-group mb-3">
+                              	<div class="form-group mb-3">
 									<label for="formFile" class="form-label">Product Thumbnail</label>
                                     <input type="file" name="product_thumbnail" class="form-control" id="formFile" onChange="mainThamUrl(this)" >
                                     <img src="" id="mainThmb" />
+<<<<<<< HEAD
                                 </div>
+=======
+                            	</div>
+>>>>>>> 3eb70d79a806c0bc886c6bea458d3c8aeb769c3e
 
                                 <div class="form-group mb-3">
 									<label for="formFile" class="form-label">Multiple Image</label>
