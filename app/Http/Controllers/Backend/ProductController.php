@@ -31,11 +31,6 @@ class ProductController extends Controller
         return view('backend.product.product_add',compact('brands','categories','activeVendor'));
     }
     public function StoreProduct(Request $request){
-
-<<<<<<< HEAD
-
-=======
->>>>>>> 3eb70d79a806c0bc886c6bea458d3c8aeb769c3e
         $image = $request->file('product_thumbnail');
         $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
         // $name_gen = time().'.'.$image;
@@ -74,7 +69,7 @@ class ProductController extends Controller
         ]);
 
         // Multiple Image Upload From here //
-<<<<<<< HEAD
+
         $images = $request->file('multi_img');
         foreach($images as $img){
         $make_name = hexdec(uniqid()).'.'.$img->getClientOriginalExtension();
@@ -83,7 +78,7 @@ class ProductController extends Controller
 
 
 
-=======
+
 
 
 
@@ -95,7 +90,6 @@ class ProductController extends Controller
         // Image::make($image->getRealPath())->resize(800,800)->save('upload/products/thambnail/'.$name_gen);
         $uploadPath = 'upload/products/multi_img/'.$make_name;
 
->>>>>>> 3eb70d79a806c0bc886c6bea458d3c8aeb769c3e
         MultiImg::insert([
 
             'product_id' => $product_id,
@@ -113,12 +107,13 @@ class ProductController extends Controller
         );
 
         return redirect()->route('all.product')->with($notification);
+        }
     }
-<<<<<<< HEAD
-=======
 
->>>>>>> 3eb70d79a806c0bc886c6bea458d3c8aeb769c3e
+
     // End Method
+
+
     public function EditProduct($id){
         $activeVendor = User::where('status','active')->where('role','vendor')->latest()->get();
          $brands = Brand::latest()->get();
@@ -204,3 +199,4 @@ class ProductController extends Controller
 
 }// End Method
 }
+
