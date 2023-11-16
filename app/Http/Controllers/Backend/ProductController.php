@@ -21,6 +21,8 @@ class ProductController extends Controller
         $productData = Product::all();
         return view('backend.product.product_all',compact('productData'));
     }
+
+
     public function AddProduct()
     {
         $brands = Brand::all();
@@ -30,9 +32,12 @@ class ProductController extends Controller
         $activeVendor = User::where('status','active')->where('role','vendor')->latest()->get();
         return view('backend.product.product_add',compact('brands','categories','activeVendor'));
     }
+
+
     public function StoreProduct(Request $request){
+
         $image = $request->file('product_thumbnail');
-        $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+        $name_gen = hexdec(uniqid()).'.'.time().'.'.date('Y-m-d').'.'.$image->getClientOriginalExtension();
         // $name_gen = time().'.'.$image;
         Image::make($image->getRealPath())->resize(800,800)->save('upload/products/thambnail/'.$name_gen);
         $save_url = 'upload/products/thambnail/'.$name_gen;
@@ -70,22 +75,11 @@ class ProductController extends Controller
 
         // Multiple Image Upload From here //
 
-        $images = $request->file('multi_img');
-        foreach($images as $img){
-        $make_name = hexdec(uniqid()).'.'.$img->getClientOriginalExtension();
-        Image::make($img->getRealPath())->resize(800,800)->save('upload/products/multi_img/'.$make_name);
-        $uploadPath = 'upload/products/multi-image/'.$make_name;
-
-
-
-
-
-
-
+        // dd($product_id);
         $images = $request->file('multi_img');
 
         foreach($images as $image){
-        $make_name = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+        $make_name = hexdec(uniqid()).'.'.time().'.'.date('Y-m-d').'.'.$image->getClientOriginalExtension();
         Image::make($image->getRealPath())->resize(800,800)->save('upload/products/multi_img/'.$make_name);
         // Image::make($image->getRealPath())->resize(800,800)->save('upload/products/thambnail/'.$name_gen);
         $uploadPath = 'upload/products/multi_img/'.$make_name;
@@ -107,7 +101,7 @@ class ProductController extends Controller
         );
 
         return redirect()->route('all.product')->with($notification);
-        }
+
     }
 
 
@@ -121,20 +115,36 @@ class ProductController extends Controller
          $subcategory = SubCategory::latest()->get();
          $products = Product::findOrFail($id);
          return view('backend.product.product_edit',compact('brands','categories','activeVendor','products','subcategory'));
-     }// End Method
+     }
+     
+     // End Method
 
 
      public function UpdateProduct(Request $request){
 
 
         $product_id = $request->id;
-        return $request->product_thumbnail;
-        $image = $request->file('product_thumbnail');
-        dd($image);
-        $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-        // $name_gen = time().'.'.$image;
-        Image::make($image->getRealPath())->resize(800,800)->save('upload/products/thambnail/'.$name_gen);
-        $save_url = 'upload/products/thambnail/'.$name_gen;
+        $product = Product::findOrFail($product_id);
+        if($request->product_thumbnail)
+        {
+            if($product->product_thumbnail!=null)
+            {
+                unlink($product->product_thumbnail);
+            }
+
+            $image = $request->file('product_thumbnail');
+
+            $name_gen = hexdec(uniqid()).'.'.time().'.'.date('Y-m-d').'.'.$image->getClientOriginalExtension();
+            // $name_gen = time().'.'.$image;
+            Image::make($image->getRealPath())->resize(800,800)->save('upload/products/thambnail/'.$name_gen);
+            $save_url = 'upload/products/thambnail/'.$name_gen;
+
+            Product::findOrFail($product_id)->update([
+                'product_thumbnail' => $save_url,
+            ]);
+
+        }
+
 
         Product::findOrFail($product_id)->update([
 
@@ -155,7 +165,7 @@ class ProductController extends Controller
        'short_descp' => $request->short_descp,
        'long_descp' => $request->long_descp,
 
-       'product_thumbnail' => $save_url,
+
        'hot_deals' => $request->hot_deals,
        'featured' => $request->featured,
        'special_offer' => $request->special_offer,
@@ -164,30 +174,40 @@ class ProductController extends Controller
 
        'vendor_id' => $request->vendor_id,
        'status' => 1,
-       'created_at' => Carbon::now(),
-
+       'updated_at' => Carbon::now(),
    ]);
 
            // Multiple Image Updated From here //
 
 
 
-        //    $images = $request->file('multi_img');
+        $images = $request->file('multi_img');
 
-        //    foreach($images as $image){
-        //    $make_name = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-        //    Image::make($image->getRealPath())->resize(800,800)->save('upload/products/multi_img/'.$make_name);
-        //    // Image::make($image->getRealPath())->resize(800,800)->save('upload/products/thambnail/'.$name_gen);
-        //    $uploadPath = 'upload/products/multi_img/'.$make_name;
 
-        //    MultiImg::insert([
+        if($request->multi_img){
+            $multiImages = MultiImg::where('product_id',$product_id)->get();
+            foreach($multiImages as $multiImage)
+            {
+                $data = MultiImg::find($multiImage->id);
+                 unlink($multiImage->photo_name);
+                $data->delete();
+            }
+            foreach($images as $image){
 
-        //        'product_id' => $product_id,
-        //        'photo_name' => $uploadPath,
-        //        'created_at' => Carbon::now(),
+                $make_name = hexdec(uniqid()).'.'.time().'.'.date('Y-m-d').'.'.$image->getClientOriginalExtension();
+                Image::make($image->getRealPath())->resize(800,800)->save('upload/products/multi_img/'.$make_name);
+                // Image::make($image->getRealPath())->resize(800,800)->save('upload/products/thambnail/'.$name_gen);
+                $uploadPath = 'upload/products/multi_img/'.$make_name;
 
-        //    ]);
-        //    } // end foreach
+            MultiImg::insert([
+
+                'product_id' => $product_id,
+                'photo_name' => $uploadPath,
+                'created_at' => Carbon::now(),
+
+            ]);
+            } // end foreach
+        }
 
 
     $notification = array(
@@ -198,5 +218,28 @@ class ProductController extends Controller
    return redirect()->route('all.product')->with($notification);
 
 }// End Method
+
+
+    public function deleteProduct($id)
+    {
+        $product = Product::findOrFail($id);
+        $images = MultiImg::where('product_id',$id)->get();
+        foreach($images as $image)
+        {
+            $data = MultiImg::find($image->id);
+            unlink($image->photo_name);
+            $data->delete();
+        }
+        unlink($product->product_thumbnail);
+        $product->delete();
+
+        $notification = array(
+            'message' => 'Product Deleted Successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('all.product')->with($notification);
+    }
 }
+
 

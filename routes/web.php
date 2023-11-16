@@ -7,17 +7,22 @@ use App\Http\Controllers\VendorController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\IndexController;
+use App\Http\Controllers\Backend\SliderController;
+use App\Http\Controllers\Backend\BannerController;
 use App\Http\Controllers\Backend\SubcategoryController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\VendorProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\SslCommerzPaymentController;
+use App\Http\Middleware\RedirectIfAuthenticated;
 
 
-Route::get('/', function () {
-    return view('frontend.index');
-});
+// Route::get('/', function () {
+//     return view('frontend.index');
+// });
 
+Route::get('/',[IndexController::class,'index']);
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard',[UserController::class,'UserDashboard'])->name('dashboard');
@@ -107,14 +112,17 @@ Route::middleware(['auth','role:vendor'])->group(function (){
         // Route::get('/edit/product/{id}' , 'EditProduct')->name('edit.product');
         // Route::post('/update/product' , 'UpdateProduct')->name('update.product');
         Route::get('vendor/delete/product/{id}','DeleteVendorProduct')->name('vendor.delete.product');
+        Route::get('vendor/product/inactive/{id}','vendorInactiveProduct')->name('vendor.product.inactive');
+        Route::get('vendor/product/active/{id}','vendorActiveProduct')->name('vendor.product.active');
+
     });
 
 });
 
 
 Route::get('/user/show/vendor/details/{id}',[UserController::class,'VendorDetailsForUser'])->name('user.vendor.details');
-Route::get('/vendor/login',[VendorController::class,'Vendor_Login'])->name('vendor.login');
-Route::get('/admin/login',[AdminController::class,'AdminLogin'])->name('admin.login');
+Route::get('/vendor/login',[VendorController::class,'Vendor_Login'])->name('vendor.login')->middleware(RedirectIfAuthenticated::class);
+Route::get('/admin/login',[AdminController::class,'AdminLogin'])->name('admin.login')->middleware(RedirectIfAuthenticated::class);
 
 Route::get('/vendor/becomevendor',[VendorController::class,'BecomeVendor'])->name('become.vendor');
 
@@ -185,12 +193,46 @@ Route::middleware(['auth','role:admin'])->group(function (){
         Route::post('/store/product' , 'StoreProduct')->name('store.product');
         Route::get('/edit/product/{id}' , 'EditProduct')->name('edit.product');
         Route::post('/update/product' , 'UpdateProduct')->name('update.product');
+        Route::get('/delete/product/admin/{id}','deleteProduct')->name('delete.product.admin');
         // Route::get('/delete/category/{id}','DeleteCategory')->name('delete.category');
     });
     //end product area
+
+    //start slider area
+    Route::controller(SliderController::class)->group(function(){
+        Route::get('/all/slider','AllSlider')->name('all.slider');
+        Route::get('/add/slider','AddSlider')->name('add.slider');
+        Route::post('/store/slider','StoreSlider')->name('store.slider');
+        Route::get('/edit/slider/{id}','EditSlider')->name('edit.slider');
+        Route::post('/update/slider/','UpdateSlider')->name('slider.update');
+        Route::get('/delete/slider/{id}','DeleteSlider')->name('delete.slider');
+    });
+    //end slider area
+
+     //start banner area
+     Route::controller(BannerController::class)->group(function(){
+        Route::get('/all/banner','AllBanner')->name('all.banner');
+        Route::get('/add/banner','AddBanner')->name('add.banner');
+        Route::post('/store/banner','StoreBanner')->name('store.banner');
+        Route::get('/edit/banner/{id}','EditBanner')->name('edit.banner');
+        Route::post('/update/banner/','UpdateBanner')->name('banner.update');
+        Route::get('/delete/banner/{id}','DeleteBanner')->name('delete.banner');
+    });
+    //end banner area
+
+
 
 
 });
 
 
 
+    //frontend product route
+    Route::get('product/details/{id}/{slug}',[IndexController::class,'ProductDetails']);
+
+    Route::get('/product/view/modal/{id}',[IndexController::class,'ProductViewAjax']);
+
+
+
+
+    //end frontend product

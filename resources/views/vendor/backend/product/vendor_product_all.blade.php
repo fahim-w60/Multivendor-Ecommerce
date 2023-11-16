@@ -17,18 +17,20 @@
             </a>
           </li>
           <li class="breadcrumb-item active" aria-current="page">Data Table</li>
+          
         </ol>
       </nav>
     </div>
     <div class="ms-auto">
       <div class="btn-group">
         
-        <a href="{{route('add.vendor.product')}}" class="btn btn-primary">Add Product</a>
+        <a href="{{route('add.vendor.product')}}" class="btn btn-primary">Add Vendor Product</a>
       </div>
     </div>
   </div>
   <!--end breadcrumb-->
-  <h6 class="mb-0 text-uppercase">All Category</h6>
+  
+  <h6 class="breadcrumb-item active" aria-current="page">Vendor All Product  <span class="badge rounded-pill bg-danger"> {{ count($products) }} </span> </h6>
   <hr />
   <div class="card">
     <div class="card-body">
@@ -56,13 +58,23 @@
                    <td>{{$item->selling_price}}</td>
                    <td>{{$item->product_qty}}</td>
                    <td>{{$item->discount_price}}</td>
-                   <td>{{$item->status}}</td>
+                   <td>
+                      @if($item->status == 1)
+                          <span class="badge rounded-pill bg-success">Active</span>
+                      @elseif($item->status == 0)
+                          <span class="badge rounded-pill bg-danger">InActive</span>
+                      @endif
+                  </td>
                     <td class="d-flex">
                     <a href="{{route('vendor.edit.product',$item->id)}}" class="btn btn-info" title="Edit Data"> <i class="fa fa-pencil"></i> </a>
 
                     <a href="{{route('vendor.delete.product',$item->id)}}" class="btn btn-danger" id="delete" title="Delete Data" ><i class="fa fa-trash"></i></a>
 
-                    
+                    @if($item->status == 1)
+                        <a href="{{ route('vendor.product.inactive',$item->id) }}" class="btn btn-primary" title="Inactive"> <i class="fa-solid fa-thumbs-down"></i> </a>
+                    @else
+                        <a href="{{ route('vendor.product.active',$item->id) }}" class="btn btn-primary" title="Active"> <i class="fa-solid fa-thumbs-up"></i> </a>
+                    @endif
 
                   </td>
                 </tr>

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('vendor_id');
             $table->integer('total_amount');
             $table->integer('discount_amount');
+            $table->integer('quantity');
             $table->timestamps();
 
         });

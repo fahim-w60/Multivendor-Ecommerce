@@ -22,13 +22,13 @@
     </div>
     <div class="ms-auto">
       <div class="btn-group">
-        
+
         <a href="{{route('add.product')}}" class="btn btn-primary">Add Product</a>
       </div>
     </div>
   </div>
   <!--end breadcrumb-->
-  <h6 class="mb-0 text-uppercase">All Category</h6>
+  <h6 class="mb-0 text-uppercase">All Product &nbsp&nbsp||&nbsp&nbsp Product List : <span class="badge rounded-pill bg-danger">{{ count($productData) }}</span></h6>
   <hr />
   <div class="card">
     <div class="card-body">
@@ -46,8 +46,8 @@
               <th>Action</th>
             </tr>
           </thead>
-          <tbody> 
-            @foreach($productData as $key => $item) 
+          <tbody>
+            @foreach($productData as $key => $item)
             {
                 <tr>
                     <td>{{$key+1}}</td>
@@ -55,21 +55,38 @@
                    <td>{{$item->product_name}}</td>
                    <td>{{$item->selling_price}}</td>
                    <td>{{$item->product_qty}}</td>
-                   <td>{{$item->discount_price}}</td>
-                   <td>{{$item->status}}</td>
+                   <td>
+                        @if($item->discount_price==NULL)
+                            <span class="badge rounded-pill bg-info">No Discount</span>
+                        @else
+                            @php
+                                $amount = $item->selling_price - $item->discount_price;
+                                $price = ($amount/$item->selling_price)*100;
+                            @endphp
+                            <span class="badge rounded-pill bg-danger">{{ $price }} %</span>
+                        @endif
+
+                   </td>
+                   <td>
+                        @if($item->status == 1)
+                            <span class="badge rounded-pill bg-success">Active</span>
+                        @elseif($item->status == 0)
+                            <span class="badge rounded-pill bg-danger">InActive</span>
+                        @endif
+                   </td>
                     <td class="d-flex">
                     <a href="{{route('edit.product',$item->id)}}" class="btn btn-info" title="Edit Data"> <i class="fa fa-pencil"></i> </a>
 
-                    <a href="#" class="btn btn-danger" id="delete" title="Delete Data" ><i class="fa fa-trash"></i></a>
+                    <a href="{{ route('delete.product.admin',$item->id)}}" class="btn btn-danger" id="delete" title="Delete Data" ><i class="fa fa-trash"></i></a>
 
-                    
+
 
                   </td>
                 </tr>
             }
             @endforeach
-             
-        
+
+
           </tbody>
         </table>
       </div>
