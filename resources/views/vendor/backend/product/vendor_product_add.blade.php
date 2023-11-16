@@ -74,7 +74,7 @@
 
   			<div class="form-group mb-3">
 				<label for="inputProductTitle" class="form-label">Main Thambnail</label>
-				<input name="product_thambnail" class="form-control" type="file" id="formFile" onChange="mainThamUrl(this)" >
+				<input name="product_thumbnail" class="form-control" type="file" id="formFile" onChange="mainThamUrl(this)" >
 
 				<img src="" id="mainThmb" />
 			</div>
@@ -223,7 +223,7 @@
                  short_descp: {
                     required : true,
                 }, 
-                 product_thambnail: {
+				product_thumbnail: {
                     required : true,
                 }, 
                  multi_img: {
@@ -255,7 +255,7 @@
                 short_descp: {
                     required : 'Please Enter Short Description',
                 },
-                product_thambnail: {
+                product_thumbnail: {
                     required : 'Please Select Product Thambnail Image',
                 },
                 multi_img: {

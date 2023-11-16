@@ -42,7 +42,7 @@
                            <div class="border border-3 p-4 rounded">
 							<div class="form-group mb-3">
 								<label for="inputProductTitle" class="form-label">Product Name</label>
-								<input type="text" name="product_name" class="form-control" id="inputProductTitle" placeholder="Enter product title">
+								<input type="text" name="product_name" class="form-control" id="inputProductTitle" placeholder="Enter product title" required>
 							</div>
                             <div class="form-group mb-3">
 								<label for="inputProductTitle" class="form-label">Product Tag</label>
@@ -59,7 +59,7 @@
 
 							  <div class="form-group mb-3">
 								<label for="inputProductDescription" class="form-label">Short Description</label>
-								<textarea class="form-control" name="short_descp" id="inputProductDescription" rows="3"></textarea>
+								<textarea class="form-control" name="short_descp" id="inputProductDescription" rows="3" required></textarea>
 							  </div>
 
                               <div class="form-group mb-3">
@@ -69,24 +69,23 @@
 
                               	<div class="form-group mb-3">
 									<label for="formFile" class="form-label">Product Thumbnail</label>
-                                    <input type="file" name="product_thumbnail" class="form-control" id="formFile" onChange="mainThamUrl(this)" >
+                                    <input type="file" name="product_thumbnail" class="form-control" id="formFile" onChange="mainThamUrl(this)" required>
                                     <img src="" id="mainThmb" />
-<<<<<<< HEAD
                                 </div>
-=======
-                            	</div>
->>>>>>> 3eb70d79a806c0bc886c6bea458d3c8aeb769c3e
+
+
+
 
                                 <div class="form-group mb-3">
 									<label for="formFile" class="form-label">Multiple Image</label>
 									<input class="form-control" name="multi_img[]" type="file" id="multiImg" multiple="">
 			                        <div class="row" id="preview_img"></div>
 								</div>
-
+                            </div>
 
                             </div>
-						   </div>
-						   <div class="col-lg-4">
+
+						 <div class="col-lg-4">
 							<div class="border border-3 p-4 rounded">
                               <div class="row g-3">
 								<div class="form-group col-md-6">
@@ -170,7 +169,8 @@
 							  </div>
 						  </div>
 						  </div>
-					   </div><!--end row-->
+					   </div>
+                    </div><!--end row-->
 					</div>
 				  </div>
 			</form>
@@ -189,7 +189,7 @@
                  short_descp: {
                     required : true,
                 },
-                 product_thambnail: {
+				product_thumbnail: {
                     required : true,
                 },
                  multi_img: {
@@ -221,7 +221,7 @@
                 short_descp: {
                     required : 'Please Enter Short Description',
                 },
-                product_thambnail: {
+                product_thumbnail: {
                     required : 'Please Select Product Thambnail Image',
                 },
                 multi_img: {

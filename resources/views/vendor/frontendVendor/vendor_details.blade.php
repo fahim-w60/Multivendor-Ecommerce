@@ -73,8 +73,8 @@
                                 <div class="product-img-action-wrap">
                                     <div class="product-img product-img-zoom">
                                         <a href="shop-product-right.html">
-                                            <img class="default-img" src="{{asset('frontend/assets/imgs/shop/product-1-1.jpg')}}" alt="" />
-                                            <img class="hover-img" src="{{asset('frontend/assets/imgs/shop/product-1-2.jpg')}}" alt="" />
+                                            <img class="default-img" src="{{asset($p->product_thumbnail)}}" alt="" />
+                                            
                                         </a>
                                     </div>
 
@@ -92,7 +92,8 @@
                                     <div class="product-category">
                                         <a href="shop-grid-right.html">Snack</a>
                                     </div>
-                                    <h2><a href="shop-product-right.html">{{$p->product_name}}</a></h2>
+                                    <h2><a href="{{ url('product/details/' . $p->id . '/' . $p->product_slug) }}">{{ $p->product_name }}</a>
+                                        </h2>
                                     <div class="product-rate-cover">
                                         <div class="product-rate d-inline-block">
                                             <div class="product-rating" style="width: 90%"></div>

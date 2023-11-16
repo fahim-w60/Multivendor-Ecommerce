@@ -23,7 +23,7 @@
                                 }
                             @endphp
                         <h6 class="text-body">There are <span class="text-brand">@php if($cart) { echo $num; } @endphp</span> products in your cart</h6>
-                                
+
                     </div>
                 </div>
             </div>
@@ -33,7 +33,7 @@
                         <table class="table table-wishlist">
                             <thead>
                                 <tr class="main-heading">
-                                    
+
                                     <th scope="col">Product</th>
                                     <th scope="col">Unit Price</th>
                                     <th scope="col">Quantity</th>
@@ -43,7 +43,7 @@
                             </thead>
                             <tbody>
 
-                            
+
                             @php
                             $cart = session()->get('cart');
                             $sub_total = 0;
@@ -59,7 +59,7 @@
                                 <tr class="pt-30">
                                     <td class="product-des product-name">
                                         <h6 class="mb-5"><a class="product-name mb-10 text-heading" href="shop-product-right.html">{{$product->product_name}}</a></h6>
-                                        
+
                                     </td>
                                     <td class="price" data-title="Price">
                                         <h4 class="text-body">{{$product->selling_price}}</h4>
@@ -76,17 +76,17 @@
                             @php
                                 }
                             @endphp
-                              
+
                             </tbody>
                         </table>
                     </div>
-                   
+
 
 
 
                         <div class="col-md-8 offset-md-2">
                              <div class="divider-2 mb-30"></div>
-                     
+
 
 
                             <div class="border p-md-4 cart-totals ml-30">
@@ -138,10 +138,10 @@
                         </div>
 
 
-                    
+
                     </div>
                 </div>
-                 
+
             </div>
         </div>
 @endsection

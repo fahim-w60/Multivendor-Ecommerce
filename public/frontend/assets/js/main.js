@@ -719,8 +719,8 @@
         $(".product-image-slider .slick-active img").elevateZoom({
             zoomType: "inner",
             cursor: "crosshair",
-            zoomWindowFadeIn: 500,
-            zoomWindowFadeOut: 750
+            zoomWindowFadeIn: 10000,
+            zoomWindowFadeOut: 1000
         });
     });
 

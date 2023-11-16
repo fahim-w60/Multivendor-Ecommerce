@@ -10,9 +10,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta property="og:title" content="" />
     <meta property="og:type" content="" />
-    <meta property="og:url" content="" />
+    <meta property="og:url" content=""     />
     <meta property="og:image" content="" />
-    <!-- Favicon -->  
+    <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('frontend/assets/imgs/theme/favicon.svg') }}" />
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/plugins/animate.min.css') }}" />
@@ -22,7 +22,10 @@
 <body>
     <!-- Modal -->
     <!-- Quick view -->
-    @include('frontend.body.quick_view')
+
+        @include('frontend.body.quick_view')
+
+
     <!-- Header  -->
     @include('frontend.body.header')
    <!-- End Header  -->
@@ -65,13 +68,53 @@
     <script src="{{ asset('frontend/assets/js/main.js?v=5.3') }}"></script>
     <script src="{{ asset('frontend/assets/js/shop.js?v=5.3') }}"></script>
     <script type="text/javascript">
-    
+
     $.ajaxSetup({
         headers:{
             'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
         }
     })
-    /// Start product view with Modal 
+    /// Start product view with Modal
+
+    function productView(id)
+    {
+        $.ajax({
+            type:'GET',
+            url:'/product/view/modal/'+id,
+            datatype: 'json',
+            success:function(data){
+                //console.log(data);
+                $('#pname').text(data.product.product_name);
+                $('#pimage').attr('src','/'+data.product.product_thumbnail);
+                $('#pprice').text(data.product.discount_price+'$');
+                $('#oldprice').text(data.product.selling_price+'$');
+
+                $('select[name="size"]').empty();
+             $.each(data.size,function(key,value){
+                $('select[name="size"]').append('<option value="'+value+' ">'+value+'  </option')
+                if (data.size == "") {
+                    $('#sizeArea').hide();
+                }else{
+                     $('#sizeArea').show();
+                }
+             })
+
+
+             $('select[name="color"]').empty();
+             $.each(data.color,function(key,value){
+                $('select[name="color"]').append('<option value="'+value+' ">'+value+'  </option')
+                if (data.color == "") {
+                    $('#colorArea').hide();
+                }else{
+                     $('#colorArea').show();
+                }
+             })
+
+            
+            }
+
+        })
+    }
     </script>
 
 

@@ -44,11 +44,11 @@ class VendorProductController extends Controller
 
 
 
-        $image = $request->file('product_thambnail');
-        $directory = 'upload/products/thambnail/';
-        $imageName = rand().date('Y-m-d').time().'_image.'.$image->getClientOriginalExtension();   
-        $save_url = $directory.$imageName;
-        $image->move($directory,$imageName);
+        $image = $request->file('product_thumbnail');
+        $name_gen = hexdec(uniqid()).'.'.time().'.'.date('Y-m-d').'.'.$image->getClientOriginalExtension();
+        // $name_gen = time().'.'.$image;
+        Image::make($image->getRealPath())->resize(800,800)->save('upload/products/thambnail/'.$name_gen);
+        $save_url = 'upload/products/thambnail/'.$name_gen;
 
         
 
@@ -120,20 +120,44 @@ class VendorProductController extends Controller
 
 
     public function VendorUpdateProduct(Request $request){
-            
+            // return $request;
 
-            $product_id = Product::find($request->id);
+            // $product_id = Product::find($request->id);
 
-            if($request->has('product_thambnail'))
-            {
-                // unlink($product_id->product_thumbnail);   
+            // if($request->has('product_thambnail'))
+            // {
+            //     unlink($product_id->product_thumbnail);   
   
-                $directory = 'upload/products/thambnail/';
-                $image = $request->file('product_thambnail');  
-                $imageName = rand().date('Y-m-d').time().'_image.'.$image->getClientOriginalExtension();         
-                $save_url = $directory.$imageName;
-                $image->move($directory,$imageName);
+            //     $directory = 'upload/products/thambnail/';
+            //     $image = $request->file('product_thambnail');  
+            //     $imageName = rand().date('Y-m-d').time().'_image.'.$image->getClientOriginalExtension();         
+            //     $save_url = $directory.$imageName;
+            //     $image->move($directory,$imageName);
+            // }
+
+        $product_id = $request->id;
+        $product = Product::findOrFail($product_id);
+        
+        if($request->product_thumbnail)
+        {
+            //dd($request->product_thumbnail);
+            if($product->product_thumbnail!=null)
+            {
+                unlink($product->product_thumbnail);
             }
+
+            $image = $request->file('product_thumbnail');
+
+            $name_gen = hexdec(uniqid()).'.'.time().'.'.date('Y-m-d').'.'.$image->getClientOriginalExtension();
+            // $name_gen = time().'.'.$image;
+            Image::make($image->getRealPath())->resize(800,800)->save('upload/products/thambnail/'.$name_gen);
+            $save_url = 'upload/products/thambnail/'.$name_gen;
+
+            Product::findOrFail($product_id)->update([
+                'product_thumbnail' => $save_url,
+            ]);
+            //dd(save_url);
+        }
       
             Product::where('id',$product_id)->update([
             'brand_id' => $request->brand_id,
@@ -153,9 +177,7 @@ class VendorProductController extends Controller
             'hot_deals' => $request->hot_deals,
             'featured' => $request->featured,
             'special_offer' => $request->special_offer,
-            'special_deals' => $request->special_deals,
-
-            'product_thumbnail' => $save_url,  
+            'special_deals' => $request->special_deals,  
             'status' => 1,
             
         ]);
@@ -185,35 +207,92 @@ class VendorProductController extends Controller
          
     //         } // end foreach
     //     }
-            $imgs = $request->multi_img;
-            foreach($imgs as $id => $img) {
-            $imgDel = MultiImg::findOrFail($id);
-            dd($imgDel);
-            unlink($imgDel->photo_name);
+    //         $imgs = $request->multi_img;
+    //         foreach($imgs as $id => $img) {
+    //         $imgDel = MultiImg::findOrFail($id);
+    //         dd($imgDel);
+    //         unlink($imgDel->photo_name);
             
-            $make_name = hexdec(uniqid()).'.'.$img->getClientOriginalExtension();
-            Image::make($img)->resize(917,1000)->save('upload/products/multi-image/'.$make_name);
-            $uploadPath = 'upload/products/multi-image/'.$make_name;
-            MultiImg::where('id',$id)->update([
-                'photo_name' => $uploadPath,
-                'updated_at' => Carbon::now(),
-            ]);        
-        /// End Multiple Image Edited From here //////
-         $notification = array(
+    //         $make_name = hexdec(uniqid()).'.'.$img->getClientOriginalExtension();
+    //         Image::make($img)->resize(917,1000)->save('upload/products/multi-image/'.$make_name);
+    //         $uploadPath = 'upload/products/multi-image/'.$make_name;
+    //         MultiImg::where('id',$id)->update([
+    //             'photo_name' => $uploadPath,
+    //             'updated_at' => Carbon::now(),
+    //         ]);        
+    //     /// End Multiple Image Edited From here //////
+
+    // } 
+    $images = $request->file('multi_img');
+
+
+    if($request->multi_img){
+        $multiImages = MultiImg::where('product_id',$product_id)->get();
+        foreach($multiImages as $multiImage)
+        {
+            $data = MultiImg::find($multiImage->id);
+             unlink($multiImage->photo_name);
+            $data->delete();
+        }
+        foreach($images as $image){
+
+            $make_name = hexdec(uniqid()).'.'.time().'.'.date('Y-m-d').'.'.$image->getClientOriginalExtension();
+            Image::make($image->getRealPath())->resize(800,800)->save('upload/products/multi_img/'.$make_name);
+            // Image::make($image->getRealPath())->resize(800,800)->save('upload/products/thambnail/'.$name_gen);
+            $uploadPath = 'upload/products/multi_img/'.$make_name;
+
+        MultiImg::insert([
+
+            'product_id' => $product_id,
+            'photo_name' => $uploadPath,
+            'created_at' => Carbon::now(),
+
+        ]);
+        } // end foreach
+    }
+        $notification = array(
             'message' => 'Vendor Product Updated Successfully',
             'alert-type' => 'success'
         );
 
         return redirect()->route('vendor.all.product')->with($notification);
-    } 
 }
 
     public function DeleteVendorProduct($id)
     {
-        $data = Product::find($id);
-        $data->delete();
+        // $data = Product::find($id);
+        // $data->delete();
+
+        $product = Product::findOrFail($id);
+        $images = MultiImg::where('product_id',$id)->get();
+        foreach($images as $image)
+        {
+            $data = MultiImg::find($image->id);
+            unlink($image->photo_name);
+            $data->delete();
+        }
+        unlink($product->product_thumbnail);
+        $product->delete();
         $notification = array(
             'message' => 'Product Deleted Successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('vendor.all.product')->with($notification);
+    }
+    public function vendorInactiveProduct($id)
+    {
+        Product::findOrfail($id)->update(['status' => 0]);
+        $notification = array(
+            'message' => 'Product Inactivated Successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('vendor.all.product')->with($notification);
+    }
+    public function vendorActiveProduct($id)
+    {
+        Product::findOrfail($id)->update(['status' => 1]);
+        $notification = array(
+            'message' => 'Product Activated Successfully',
             'alert-type' => 'success'
         );
         return redirect()->route('vendor.all.product')->with($notification);
